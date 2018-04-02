@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Monster Slayer</title>
+    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+    <div id="app">
+
+        <div v-show="firstPageShow" id="firstPage">
+            <section class="row controls">
+                <div class="small-12 columns">
+                    <img src="./image/logo.png" alt="">
+                    <button class="btn-success" v-on:click="startNewGame" id="start-game">START NEW GAME</button>
+                </div>
+            </section>
+
+        </div>
+        <div v-show="GamePageShow" class="gamePage">
+            <section class="row">
+                <div class="small-6 columns">
+                    <h1 class="text-center">Pikachu</h1>
+                    <img class="center" src="./image/Pikachu.jpg" alt="">
+                    <div class="healthbar">
+                        <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" v-bind:style="{width : PikachuHP + '%'}">
+                            {{PikachuHP}}
+                        </div>
+                    </div>
+                </div>
+                <div class="small-6 columns">
+                    <h1 class="text-center">MONSTER</h1>
+                    <img class="center" src="./image/Monster.jpg" alt="">
+                    <div class="healthbar">
+                        <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" v-bind:style="{width : MonsterHP + '%'}">
+                            {{MonsterHP}}
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="row controls">
+                <div class="small-12 columns">
+                    <button v-on:click="Attack" id="attack">ATTACK</button>
+                    <button v-on:click="Health" id="heal">Potion</button>
+                    <button id="give-up">GIVE UP</button>
+                </div>
+            </section>
+        </div>
+
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    firstPageShow: true,
+                    GamePageShow: false,
+                    PikachuHP: 100,
+                    MonsterHP: 100
+                }
+            },
+            methods: {
+                startNewGame() {
+                    console.log("StartNewGame method");
+                    this.firstPageShow = false;
+                    this.GamePageShow = true;
+                },
+                Attack() {
+                    this.PikachuHP -= 20;
+                    this.MonsterHP -= 10;
+                    this.CheckMinHP();
+                },
+                Health()
+                {
+                    this.PikachuHP +=50;
+                    this.CheckMaxHP();
+                },
+                CheckMaxHP()
+                {
+                    if(this.PikachuHP > 100)
+                    {
+                        this.PikachuHP = 100;
+                    }
+                },
+                CheckMinHP()
+                {
+                    if(this.PikachuHP < 0)
+                    {
+                        this.PikachuHP = 0;
+                    }
+                    if(this.MonsterHP < 0)
+                    {
+                        this.MonsterHP = 0;
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
